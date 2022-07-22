@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div><H1>Tutaj możesz stworzyć swój kolaż ze zdjęciami.</H1></div>
+
+    <div>
+        <div class="coll_divs" id="coll_url_div_1">
+            <p>Dodaj adres obrazu</p>
+            <input id="url_1">
+            <button id="add_next_url1" disabled >Dodaj kolejny url</button>
+        </div>
+        <div class="coll_divs" id="coll_url_div_2" hidden>
+            <p>Dodaj adres obrazu</p>
+            <input class="urls_input" type="url" id="url_2">
+            <button id="add_next_url2" disabled >Dodaj kolejny url</button>
+        </div>
+        <div class="coll_divs" id="coll_url_div_3" hidden>
+            <p>Dodaj adres obrazu</p>
+            <input class="urls_input" type="url" id="url_3">
+            <button id="add_next_url3" disabled >Dodaj kolejny url</button>
+
+        </div>
+        <div class="coll_divs" id="coll_url_div_4" hidden>
+            <p>Dodaj adres obrazu</p>
+            <input class="urls_input" type="url" id="url_4">
+            <button id="add_next_url4" disabled >Dodaj kolejny url</button>
+
+        </div>
+        <div class="coll_divs" id="coll_url_div_5" hidden><p>Dodaj adres obrazu</p><input class="urls_input" type="url" id="url_5">
+            <button id="add_next_url5" disabled >Dodaj kolejny url</button>
+
+        </div>
+        <div class="coll_divs" id="coll_url_div_6" hidden><p>Dodaj adres obrazu</p><input class="urls_input" type="url" id="url_6">
+
+        </div>
+    </div>
+    <div>
+{#        <button id="add_next_url" disabled >Dodaj kolejny url</button>#}
+        <button id="generate_collage" disabled>Wygeneruj kolaż ze zdjęciami</button>
+    </div>
+
+</div>
+</body>
+</html>
+
+{% block extra_js %}
+    <script src="{% static '/plugins/jquery/jquery.min.js' %}"></script>
+    <script>
+        function check_url (event)
+        {
+            let url = event.data.url
+            let add_next_url_button =event.data.add_button
+            let url_address_value = url.val()
+            if (url_address_value != ""){
+
+            $.ajax({
+                url: '{% url "check_url" %}',
+                type:"GET",
+                dataType: 'json',
+                data: {'url': url_address_value}
+            }).done(function (result) {
+                if (result['is_valid'] == true){
+                    add_next_url_button.attr('disabled',false)
+                    $('#generate_collage').attr('disabled',false)
+
+                }
+            })
+        }
+            else {
+                 add_next_url_button.attr('disabled',true)
+
+            }
+        };
+        $('#url_1').on('change',{'url':$('#url_1'), 'add_button': $('#add_next_url1')},check_url)
+        $('#url_2').on('change',{'url':$('#url_2'), 'add_button': $('#add_next_url2')},check_url)
+        $('#url_3').on('change',{'url':$('#url_3'), 'add_button': $('#add_next_url3')},check_url)
+        $('#url_4').on('change',{'url':$('#url_4'), 'add_button': $('#add_next_url4')},check_url)
+        $('#url_5').on('change',{'url':$('#url_5'), 'add_button': $('#add_next_url5')},check_url)
+        $('#url_6').on('change',{'url':$('#url_6'), 'add_button': $('#add_next_url6')},check_url)
+
+        function show_section(event){
+            let section = event.data.section
+            let add_button = event.data.add_button
+            section.attr('hidden',false)
+            if (add_button != ''){
+                add_button.attr('hidden',false)
+            }
+        }
+
+        $('#add_next_url1').on('click',{'section':$('#coll_url_div_2'), 'add_button':$('#add_next_url1')}, show_section )
+        $('#add_next_url2').on('click',{'section':$('#coll_url_div_3'), 'add_button':$('#add_next_url2')}, show_section )
+        $('#add_next_url3').on('click',{'section':$('#coll_url_div_4'), 'add_button':$('#add_next_url3')}, show_section )
+        $('#add_next_url4').on('click',{'section':$('#coll_url_div_5'), 'add_button':$('#add_next_url4')}, show_section )
+        $('#add_next_url5').on('click',{'section':$('#coll_url_div_6'), 'add_button': ''}, show_section )
+    </script>
+
+
+
+
+
+
+
+    <script>
+
+        $('#generate_collage').on('click', function (){
+
+            $.ajax({
+                url: '{% url "testuje" %}',
+                type:"GET",
+                dataType: 'json',
+
+            }).done(function (result) {
+                    console.log(result)})
+        })
+    </script>
+
+{% endblock %}
