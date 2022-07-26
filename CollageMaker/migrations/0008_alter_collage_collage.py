@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('CollageMaker', '0007_remove_collage_name_alter_collage_collage_and_more'),
+        ("CollageMaker", "0007_remove_collage_name_alter_collage_collage_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='collage',
-            name='collage',
-            field=models.ImageField(upload_to='collages/'),
+            model_name="collage",
+            name="collage",
+            field=models.ImageField(upload_to="collages/"),
         ),
     ]

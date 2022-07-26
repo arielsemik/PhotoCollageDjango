@@ -2,11 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Photo collage generator</title>
 </head>
 <body>
 <div>
+    <H1>
+Photo collage generator    </H1>
     <form id = 'urls_form' action="{% url 'index' %}" method="post">
+        <div>
+        <div class="form-group" id="width_form" >
+            <label for="width">width</label>
+        {{ collage_form.width }}
+        </div>
+
+        <div class="form-group" id="height_form">
+            <label for="height">height</label>
+        {{ collage_form.height }}
+        </div>
+
+        <div class="form-group" id="rows_form">
+            <label for="rows">rows</label>
+        {{ collage_form.rows }}
+        </div>
+
+        <div class="form-group" id="columns_form">
+            <label for="columns">columns</label>
+        {{ collage_form.columns }}
+        </div>
+        </div>
+        <br>
+        <div>
         <div class="form-group" id="url_1_div">
             <label for="url_1">url1</label>
 
@@ -37,29 +62,10 @@
             <label for="url_6">url6</label>
         {{ collage_form.url_6 }}
         </div>
-
-        <div class="form-group" id="width_form" >
-            <label for="width">width</label>
-        {{ collage_form.width }}
-        </div>
-
-        <div class="form-group" id="height_form">
-            <label for="height">height</label>
-        {{ collage_form.height }}
-        </div>
-
-        <div class="form-group" id="rows_form">
-            <label for="rows">rows</label>
-        {{ collage_form.rows }}
-        </div>
-
-        <div class="form-group" id="columns_form">
-            <label for="columns">columns</label>
-        {{ collage_form.columns }}
-        </div>
-
+</div>
+<br>
         {% csrf_token %}
-        <button type="submit" name ='generate_collage'>Generuj kolaż</button>
+        <button type="submit" name ='generate_collage'>Generate</button>
 
     </form>
 </div>

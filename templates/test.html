@@ -2,71 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Your Collage</title>
 </head>
 <body>
 <img src="media/collages/{{ image }}" width="100%" height="100%">
-<button onclick="window.open('media/collages/{{ image }}')">dsfasdfsadfdsafwa</button>
+<button onclick="window.open('media/collages/{{ image }}')">Open in new window</button>
 </body>
 </html>
-{##}
-{##}
-{#{% block extra_js %}#}
-{#    <script src="{% static '/plugins/jquery/jquery.min.js' %}"></script>#}
-{#<script>#}
-{##}
-{##}
-{#function check_url (event)#}
-{#        {#}
-{#            $('#generate_collage').attr('disabled',true)#}
-{##}
-{#            let url = event.data.url#}
-{#            let url_address_value = url.val()#}
-{#            let next_url_div = event.data.next_url_div#}
-{#            if (url_address_value != ""){#}
-{##}
-{#                $.ajax({#}
-{#                    url: '{% url "check_url" %}',#}
-{#                    type:"GET",#}
-{#                    dataType: 'json',#}
-{#                    data: {'url': url_address_value}#}
-{#                 }).done(function (result) {#}
-{#                    if (result['is_valid'] == true){#}
-{#                        $('#generate_collage').attr('disabled',false)#}
-{#                        url.attr('disabled',true)#}
-{#                        if (next_url_div != '') {#}
-{#                            next_url_div.attr('hidden', false)#}
-{#                        }#}
-{#                    }#}
-{#                    else{#}
-{##}
-{#                        $('#generate_collage').attr('disabled',true)#}
-{#                        next_url_div.attr('hidden', true)#}
-{##}
-{#                    }#}
-{#                 })#}
-{#            }#}
-{#            else {#}
-{##}
-{#            }#}
-{#        };#}
-{##}
-{#        $('#url_1_div input').on('change',{'url':$('#url_1_div input'), 'next_url_div': $('#url_2_div')} ,check_url)#}
-{#        $('#url_2_div input').on('change',{'url':$('#url_2_div input'), 'next_url_div': $('#url_3_div')} ,check_url)#}
-{#        $('#url_3_div input').on('change',{'url':$('#url_3_div input'), 'next_url_div': $('#url_4_div')} ,check_url)#}
-{#        $('#url_4_div input').on('change',{'url':$('#url_4_div input'), 'next_url_div': $('#url_5_div')} ,check_url)#}
-{#        $('#url_5_div input').on('change',{'url':$('#url_5_div input'), 'next_url_div': $('#url_6_div')} ,check_url)#}
-{#        $('#url_6_div input').on('change',{'url':$('#url_6_div input'), 'next_url_div': ''  },check_url)#}
-{##}
-{##}
-{#    $('#generate_collage').on('click', function (){#}
-{#        console.log('aaaa',$('#url_1_div input').val())#}
-{#        console.log($('#url_1_div input').val())#}
-{#    })#}
-{##}
-{##}
-{##}
-{#</script>#}
-{##}
-{##}
-{#{% endblock %}#}

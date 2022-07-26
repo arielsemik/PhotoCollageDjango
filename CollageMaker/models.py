@@ -6,9 +6,10 @@ from django.core.files import File
 from django.conf.global_settings import MEDIA_URL
 from KolazeZdjec.settings import MEDIA_ROOT
 
+
 class Collage(models.Model):
 
-    collage = models.ImageField(max_length=250, upload_to=f'{MEDIA_ROOT}/collages')
+    collage = models.ImageField(max_length=250, upload_to=f"{MEDIA_ROOT}/collages")
     # picture_1 = models.ImageField(upload_to=f'{MEDIA_URL}images/')
     # picture_2 = models.ImageField(upload_to=f'{MEDIA_URL}images/')
     # picture_3 = models.ImageField(upload_to=f'{MEDIA_URL}images/')
@@ -17,9 +18,6 @@ class Collage(models.Model):
     # picture_6 = models.ImageField(upload_to=f'{MEDIA_URL}images/')
 
 
-
 class Image_iItem(models.Model):
-    image_file = models.ImageField(upload_to='images/')
+    image_file = models.ImageField(upload_to="images/")
     image_url = models.URLField()
-
-

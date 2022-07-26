@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('CollageMaker', '0004_collage'),
+        ("CollageMaker", "0004_collage"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='collage',
-            name='collage',
-            field=models.ImageField(storage=django.core.files.storage.FileSystemStorage(location='images/collages'), upload_to=''),
+            model_name="collage",
+            name="collage",
+            field=models.ImageField(
+                storage=django.core.files.storage.FileSystemStorage(
+                    location="images/collages"
+                ),
+                upload_to="",
+            ),
         ),
     ]

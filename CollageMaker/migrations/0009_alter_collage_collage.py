@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('CollageMaker', '0008_alter_collage_collage'),
+        ("CollageMaker", "0008_alter_collage_collage"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='collage',
-            name='collage',
-            field=models.ImageField(max_length=250, upload_to='C:\\Users\\asemik\\Documents\\Nauka\\Zadania_i_aplikacje\\KolazeZdjec\\media//collages'),
+            model_name="collage",
+            name="collage",
+            field=models.ImageField(
+                max_length=250,
+                upload_to="C:\\Users\\asemik\\Documents\\Nauka\\Zadania_i_aplikacje\\KolazeZdjec\\media//collages",
+            ),
         ),
     ]
