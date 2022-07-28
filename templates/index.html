@@ -7,71 +7,102 @@
 <body>
 <div>
     <H1>
-Photo collage generator    </H1>
-    <form id = 'urls_form' action="{% url 'index' %}" method="post">
+        Photo collage generator </H1>
+    <div>
+        <p>Aplikacja służy do wygenerowania kolażu zdjęć. Zdjęcia są podawane w adresach url.</p>
+        <p>Zasady:</p>
+        <ul>
+            <li>Adres Url musi kończyć się formatem pliku .jpg", .jpeg, .png", .tiff</li>
+            <li>Zdjęcie mogą być z domen podanych na <a href="https://www.pythonanywhere.com/whitelist/">białej liście
+                Pythonanywhere</a>. Nistety serwer nie umożliwia darmowym kontom zaglądanie na inne strony.
+            </li>
+            <li>Po wprowadzeniu adresu link jest sprawdzony i jeżeli będzie błąd to pokaże się komunikat o błędnym
+                adresie url
+            </li>
+            <li>Jeżeli nie będize błędu to pokaże się kolejne pole, pole z poprawnym adresem zostanie zablokowane oraz
+                uaktywni się przycisk Generate
+            </li>
+            <li>W polach: width, height, rows, column można wpisać dane wejściowe wygenerowanego kolażu zdjęć. Jeżeli
+                nie zostanie nic wpisane w tych polach zostaną użyte domyślne wartości
+            </li>
+            <li>Wygenerowany plik pojawi się w formacie .jpg</li>
+        </ul>
+    </div>
+
+
+    <form id='urls_form' action="{% url 'index' %}" method="post">
         <div>
-        <div class="form-group" id="width_form" >
-            <label for="width">width</label>
-        {{ collage_form.width }}
-        </div>
+            <div class="form-group" id="width_form">
+                <label for="width">width</label>
+                {{ collage_form.width }}
+            </div>
 
-        <div class="form-group" id="height_form">
-            <label for="height">height</label>
-        {{ collage_form.height }}
-        </div>
+            <div class="form-group" id="height_form">
+                <label for="height">height</label>
+                {{ collage_form.height }}
+            </div>
 
-        <div class="form-group" id="rows_form">
-            <label for="rows">rows</label>
-        {{ collage_form.rows }}
-        </div>
+            <div class="form-group" id="rows_form">
+                <label for="rows">rows</label>
+                {{ collage_form.rows }}
+            </div>
 
-        <div class="form-group" id="columns_form">
-            <label for="columns">columns</label>
-        {{ collage_form.columns }}
-        </div>
+            <div class="form-group" id="columns_form">
+                <label for="columns">columns</label>
+                {{ collage_form.columns }}
+            </div>
         </div>
         <br>
         <div>
-        <div class="form-group" id="url_1_div">
-            <label for="url_1">url1</label>
+            <div class="form-group" id="url_1_div">
+                <label for="url_1">url1</label>
 
-        {{ collage_form.url_1 }}
-        </div>
+                {{ collage_form.url_1 }}
+            </div>
+            <div id="error_1" style="color: red" hidden><p>Niepoprawny adres URL</p></div>
 
-        <div class="form-group" id="url_2_div" hidden>
-            <label for="url_2">url2</label>
-        {{ collage_form.url_2 }}
-        </div>
+            <div class="form-group" id="url_2_div" hidden>
+                <label for="url_2">url2</label>
+                {{ collage_form.url_2 }}
+            </div>
+            <div id="error_2" style="color: red" hidden><p>Niepoprawny adres URL</p></div>
 
-        <div class="form-group" id="url_3_div"  hidden>
-            <label for="url_3">url3</label>
-        {{ collage_form.url_3 }}
-        </div>
+            <div class="form-group" id="url_3_div" hidden>
+                <label for="url_3">url3</label>
+                {{ collage_form.url_3 }}
+            </div>
+            <div id="error_3" style="color: red" hidden><p>Niepoprawny adres URL</p></div>
 
-        <div class="form-group" id="url_4_div"  hidden>
-            <label for="url_4">url4</label>
-        {{ collage_form.url_4 }}
-        </div>
+            <div class="form-group" id="url_4_div" hidden>
+                <label for="url_4">url4</label>
+                {{ collage_form.url_4 }}
+            </div>
+            <div id="error_4" style="color: red" hidden><p>Niepoprawny adres URL</p></div>
 
-        <div class="form-group" id="url_5_div"  hidden>
-            <label for="url_5">url5</label>
-        {{ collage_form.url_5 }}
-        </div>
+            <div class="form-group" id="url_5_div" hidden>
+                <label for="url_5">url5</label>
+                {{ collage_form.url_5 }}
+            </div>
+            <div id="error_5" style="color: red" hidden><p>Niepoprawny adres URL</p></div>
 
-        <div class="form-group" id="url_6_div"  hidden>
-            <label for="url_6">url6</label>
-        {{ collage_form.url_6 }}
+            <div class="form-group" id="url_6_div" hidden>
+                <label for="url_6">url6</label>
+                {{ collage_form.url_6 }}
+
+            </div>
+            <div id="error_6" style="color: red" hidden><p>Niepoprawny adres URL</p></div>
         </div>
-</div>
-<br>
+        <br>
+
+
         {% csrf_token %}
-        <button type="submit" name ='generate_collage'>Generate</button>
+        <button type="submit" id="generate_collage" name='generate_collage' disabled>Generate</button>
 
     </form>
 </div>
+
 </body>
 </html>
-
 
 
 {% load static %}
@@ -80,57 +111,85 @@ Photo collage generator    </H1>
 
 {% block extra_js %}
     <script src="{% static '/plugins/jquery/jquery.min.js' %}"></script>
-<script>
+    <script>
 
 
-function check_url (event)
-        {
-            $('#generate_collage').attr('disabled',true)
+        function check_url(event) {
+            $('#generate_collage').attr('disabled', true)
 
             let url = event.data.url
             let url_address_value = url.val()
             let next_url_div = event.data.next_url_div
-            if (url_address_value != ""){
+            let error = event.data.error_div
+            if (url_address_value != "") {
 
                 $.ajax({
                     url: '{% url "check_url" %}',
-                    type:"GET",
+                    type: "GET",
                     dataType: 'json',
                     data: {'url': url_address_value}
-                 }).done(function (result) {
-                    if (result['is_valid'] == true){
-                        $('#generate_collage').attr('disabled',false)
-                        url.attr('disabled',true)
-                        url.parent().attr('disabled',true)
+                }).done(function (result) {
+
+                    if (result['is_valid'] == true) {
+                        $('#generate_collage').attr('disabled', false)
+                        url.attr('disabled', true)
+                        url.parent().attr('disabled', true)
                         if (next_url_div != '') {
                             next_url_div.attr('hidden', false)
-                         }
-                    }
-                    else{
+                            error.attr('hidden', true)
 
-                        $('#generate_collage').attr('disabled',true)
+                        }
+                    } else {
+                        $('#generate_collage').attr('disabled', true)
                         next_url_div.attr('hidden', true)
 
+
+                        error.attr('hidden', false)
+
                     }
-                 })
+                })
             }
 
         };
 
-        $('#url_1_div input').on('change',{'url':$('#url_1_div input'), 'next_url_div': $('#url_2_div')} ,check_url)
-        $('#url_2_div input').on('change',{'url':$('#url_2_div input'), 'next_url_div': $('#url_3_div')} ,check_url)
-        $('#url_3_div input').on('change',{'url':$('#url_3_div input'), 'next_url_div': $('#url_4_div')} ,check_url)
-        $('#url_4_div input').on('change',{'url':$('#url_4_div input'), 'next_url_div': $('#url_5_div')} ,check_url)
-        $('#url_5_div input').on('change',{'url':$('#url_5_div input'), 'next_url_div': $('#url_6_div')} ,check_url)
-        $('#url_6_div input').on('change',{'url':$('#url_6_div input'), 'next_url_div': ''  },check_url)
+        $('#url_1_div input').on('change', {
+            'url': $('#url_1_div input'),
+            'next_url_div': $('#url_2_div'),
+            'error_div': $('#error_1')
+        }, check_url)
+        $('#url_2_div input').on('change', {
+            'url': $('#url_2_div input'),
+            'next_url_div': $('#url_3_div'),
+            'error_div': $('#error_2')
+        }, check_url)
+        $('#url_3_div input').on('change', {
+            'url': $('#url_3_div input'),
+            'next_url_div': $('#url_4_div'),
+            'error_div': $('#error_3')
+        }, check_url)
+        $('#url_4_div input').on('change', {
+            'url': $('#url_4_div input'),
+            'next_url_div': $('#url_5_div'),
+            'error_div': $('#error_4')
+        }, check_url)
+        $('#url_5_div input').on('change', {
+            'url': $('#url_5_div input'),
+            'next_url_div': $('#url_6_div'),
+            'error_div': $('#error_5')
+        }, check_url)
+        $('#url_6_div input').on('change', {
+            'url': $('#url_6_div input'),
+            'next_url_div': '',
+            'error_div': $('#error_6')
+        }, check_url)
 
 
-        $('#urls_form').submit(function(){
+        $('#urls_form').submit(function () {
             $("#urls_form :disabled").removeAttr('disabled');
         });
 
 
-</script>
+    </script>
 
 
 {% endblock %}

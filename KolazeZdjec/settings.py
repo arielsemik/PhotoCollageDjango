@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-@_8*&nafnv-ol_(by=vac75$*q5tk&km^6k!0%mz)t)lv#8(i4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['community.pythonanywhere.com']
+ALLOWED_HOSTS = ["arielsemik.pythonanywhere.com", "127.0.0.1"]
 
 
 # Application definition
@@ -114,7 +114,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 

@@ -1,13 +1,11 @@
-import time
-
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import requests
 from CollageMaker.models import Image_iItem, Collage
 from PIL import Image
 from django.core.files import File
 from tempfile import NamedTemporaryFile
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 
 from .forms import CollageForms
 
@@ -46,11 +44,22 @@ def index(request) -> HttpResponse:
 
             image = generate_collage(file_names, **slp)
 
-            return render(request, "test.html", {"image": image})
+            return render(request, "generated.html", {"image": image})
 
     else:
         collage_form = CollageForms()
     return render(request, "index.html", {"collage_form": collage_form})
+
+
+def download_image(url: str) -> NamedTemporaryFile:
+    img_temp = NamedTemporaryFile(delete=True)
+    user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7"
+    headers = {"User-Agent": user_agent}
+    req = Request(url, headers=headers)
+
+    img_temp.write(urlopen(req).read())
+    img_temp.flush()
+    return img_temp
 
 
 def save_images(urls: list) -> list:
@@ -58,11 +67,8 @@ def save_images(urls: list) -> list:
     for url in urls:
         im = Image_iItem(image_url=url)
         im.save()
-        img_temp = NamedTemporaryFile(delete=True)
-        img_temp.write(urlopen(url).read())
-        img_temp.flush()
         img_name = f"image_{im.pk}.jpg"
-
+        img_temp = download_image(url)
         im.image_file.save(img_name, File(img_temp))
         im.save()
         file_names.append(f"media/images/{img_name}")
@@ -87,7 +93,13 @@ def resize_images(
 
 
 def create_collage(
-    rows:int, cols: int, ims: list, thumbnail_height:int, thumbnail_width:int, width: int, height:int
+    rows: int,
+    cols: int,
+    ims: list,
+    thumbnail_height: int,
+    thumbnail_width: int,
+    width: int,
+    height: int,
 ) -> Image:
     item = 0
     x_coordinates = 0
@@ -107,7 +119,7 @@ def create_collage(
     return new_im
 
 
-def create_namespace(file_names: list):
+def create_namespace(file_names: list) -> str:
     collage_name_clean = "-".join(
         [name.split("_")[-1].split(".")[-2] for name in file_names]
     )
@@ -142,7 +154,6 @@ def generate_collage(
         "rows": rows,
     }
     new_im = create_collage(**parameters)
-
     path_to_collage = create_namespace(file_names)
 
     # TODO Przerobić aby tworzyło się w temp
@@ -178,7 +189,9 @@ def check_url_response(url: str) -> bool:
 
 def check_url(request) -> JsonResponse:
     url = request.GET.get("url")
+
     if check_url_response(url) == True and check_url_format(url) == True:
+
         return JsonResponse({"is_valid": True})
     else:
         return JsonResponse({"is_valid": False})
